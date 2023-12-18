@@ -43,3 +43,4 @@ const products = [
 ];
 
 export default products;
+// for hard code
