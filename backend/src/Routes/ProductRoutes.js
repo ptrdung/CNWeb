@@ -9,7 +9,7 @@ const productRoute = express.Router();
 productRoute.get(
   "/",
   asyncHandler(async (req, res) => {
-    const pageSize = 12;
+    const pageSize = 9;
     const page = Number(req.query.pageNumber) || 1;
     const keyword = req.query.keyword
       ? {
@@ -48,7 +48,7 @@ productRoute.get(
       res.json(product);
     } else {
       res.status(404);
-      throw new Error("Product not Found - Hello Universe");
+      throw new Error("Product not Found");
     }
   })
 );
@@ -56,11 +56,10 @@ productRoute.get(
 // PRODUCT REVIEW
 productRoute.post(
   "/:id/review",
-  // protect,
+  protect,
   asyncHandler(async (req, res) => {
     const { rating, comment } = req.body;
     const product = await Product.findById(req.params.id);
-    console.log(product);
 
     if (product) {
       const alreadyReviewed = product.reviews.find(
@@ -87,7 +86,7 @@ productRoute.post(
       res.status(201).json({ message: "Reviewed Added" });
     } else {
       res.status(404);
-      throw new Error({name: "Hello Cosmo"});
+      throw new Error("Product not Found");
     }
   })
 );
